@@ -3,7 +3,7 @@ import dbClient from '../utils/db.js';
 import { userQueue } from '../utils/queue.js';
 
 class UsersController {
-  static postNew(request, response) {
+  static postNew (request, response) {
     const users = dbClient.database.collection('users');
     const { email } = request.body;
     const { password } = request.body;
@@ -34,7 +34,7 @@ class UsersController {
       try {
         const result = await users.insertOne({
           email,
-          password: sha1(password),
+          password: sha1(password)
         });
         userQueue.add({ userId: result.insertedId });
         response.status(201).json({ id: result.insertedId, email });

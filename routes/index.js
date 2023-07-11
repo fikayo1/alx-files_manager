@@ -3,7 +3,7 @@ import UsersController from '../controllers/UsersController.js';
 import AuthController from '../controllers/AuthController.js';
 import FilesController from '../controllers/FilesController.js';
 
-function addRoutes(app) {
+function addRoutes (app) {
   app.get('/status', AppController.getStatus);
   app.get('/stats', AppController.getStats);
 

@@ -10,16 +10,16 @@ const users = dbClient.database.collection('users');
 const files = dbClient.database.collection('files');
 
 class FilesController {
-  static async postUpload(request, response) {
+  static async postUpload (request, response) {
     const fileType = request.body.type;
     const {
-      name, parentId, isPublic, data,
+      name, parentId, isPublic, data
     } = request.body;
     const document = {
       name,
       type: fileType,
       parentId: parentId || 0,
-      isPublic: isPublic || false,
+      isPublic: isPublic || false
     };
     if (!name) {
       response.status(400).json({ error: 'Missing name' });
@@ -72,7 +72,7 @@ class FilesController {
       const res = await files.insertOne(document);
       const id = res.insertedId;
       response.status(201).json({
-        id, userId, name, type: fileType, isPublic: document.isPublic, parentId: document.parentId,
+        id, userId, name, type: fileType, isPublic: document.isPublic, parentId: document.parentId
       });
       return;
     }
@@ -93,11 +93,11 @@ class FilesController {
       fileQueue.add({ fileId: id, userId });
     }
     response.status(201).json({
-      id, userId, name, type: fileType, isPublic: document.isPublic, parentId: document.parentId,
+      id, userId, name, type: fileType, isPublic: document.isPublic, parentId: document.parentId
     });
   }
 
-  static async getShow(request, response) {
+  static async getShow (request, response) {
     const { id } = request.params;
     const token = request.get('X-Token');
     let userId;
@@ -125,7 +125,7 @@ class FilesController {
     response.json(file);
   }
 
-  static async getIndex(request, response) {
+  static async getIndex (request, response) {
     const parentId = request.query.parentId || 0;
     let page;
     try {
@@ -159,12 +159,12 @@ class FilesController {
     const childrenFiles = await files.aggregate([
       { $match: { parentId } },
       { $skip: (20 * page) },
-      { $limit: 20 },
+      { $limit: 20 }
     ]).toArray();
     response.json(childrenFiles);
   }
 
-  static async putPublish(request, response) {
+  static async putPublish (request, response) {
     const { id } = request.params;
     const token = request.get('X-Token');
     let userId;
@@ -194,7 +194,7 @@ class FilesController {
     response.json(file);
   }
 
-  static async putUnpublish(request, response) {
+  static async putUnpublish (request, response) {
     const { id } = request.params;
     const token = request.get('X-Token');
     let userId;
@@ -224,7 +224,7 @@ class FilesController {
     response.json(file);
   }
 
-  static async getFile(request, response) {
+  static async getFile (request, response) {
     const { id, size } = request.params;
     const token = request.get('X-Token');
     let userId;

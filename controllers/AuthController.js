@@ -5,7 +5,7 @@ import dbClient from '../utils/db.js';
 import redisClient from '../utils/redis.js';
 
 class AuthController {
-  static getConnect(request, response) {
+  static getConnect (request, response) {
     const authHeader = request.get('Authorization');
     if (!authHeader) {
       response.status(401).json({ error: 'Unauthorized' });
@@ -25,7 +25,7 @@ class AuthController {
         const users = dbClient.database.collection('users');
         const user = await users.findOne({
           email,
-          password: sha1(password),
+          password: sha1(password)
         });
         if (!user) {
           response.status(401).json({ error: 'Unauthorized' });
@@ -46,7 +46,7 @@ class AuthController {
     })();
   }
 
-  static getDisconnect(request, response) {
+  static getDisconnect (request, response) {
     const token = request.get('X-Token');
     (async () => {
       let userId;
@@ -72,7 +72,7 @@ class AuthController {
     })();
   }
 
-  static getMe(request, response) {
+  static getMe (request, response) {
     const token = request.get('X-Token');
     redisClient
       .get(`auth_${token}`)

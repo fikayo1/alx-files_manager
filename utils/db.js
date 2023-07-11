@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 class DBClient {
-  constructor() {
+  constructor () {
     const host = process.env.DB_HOST || 'localhost';
     const port = process.env.DB_PORT || '27017';
     const database = process.env.DB_DATABASE || 'files_manager';
@@ -14,7 +14,7 @@ class DBClient {
     }
   }
 
-  isAlive() {
+  isAlive () {
     if (!this.client) {
       console.log('Client is null');
       return false;
@@ -22,7 +22,7 @@ class DBClient {
     return this.client.isConnected();
   }
 
-  async nbUsers() {
+  async nbUsers () {
     if (!this.isAlive()) return 0;
     const users = this.database.collection('users');
     const nb = await users.countDocuments({}, { hint: '_id_' });
@@ -30,7 +30,7 @@ class DBClient {
     return nb;
   }
 
-  async nbFiles() {
+  async nbFiles () {
     if (!this.isAlive()) return 0;
     const files = this.database.collection('files');
     const nb = await files.countDocuments({}, { hint: '_id_' });
